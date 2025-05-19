@@ -7,7 +7,7 @@ export class OptionController {
   constructor(private readonly userService: userService) {}
 
   @Get()
-    findAll() : any {
-        return this.userService.findAll()
-    }
+  findAll(): any {
+    return this.userService.findAll();
+  }
 }

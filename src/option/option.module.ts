@@ -6,7 +6,6 @@ import { UserModule } from 'src/user/user.module';
 @Module({
   controllers: [OptionController],
   providers: [OptionService],
-  imports : [UserModule]
-  
+  imports: [UserModule],
 })
 export class OptionModule {}
