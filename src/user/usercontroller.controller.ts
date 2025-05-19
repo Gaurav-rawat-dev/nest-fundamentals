@@ -1,6 +1,13 @@
-import { BadRequestException, Controller, Get, HttpException, HttpStatus, Post, Query, Req, Res, UseFilters } from '@nestjs/common';
+import { BadRequestException, Controller, Get, HttpException, HttpStatus, Post, Query, Req, Res, UseFilters, Body } from '@nestjs/common';
 import { userService } from './userservice.service';
 import { HttpExceptionFilter } from 'src/exception-filters/http-exception';
+
+
+export class CreateUserDTO{
+    name : string
+    age : number
+    role : string
+}
 
 @Controller('user')
 @UseFilters(HttpExceptionFilter)
@@ -19,8 +26,8 @@ export class UserController {
     }
 
     @Post()
-    async create(@Req() req: Request, @Res() res:Response) : Promise<any> {
-        const newUser = await this.userService.create(req)
+    async create(@Res() res: Response, @Body() createUserDto : CreateUserDTO) : Promise<any> {
+        const newUser = await this.userService.create(createUserDto)
         // @ts-ignore
         res.json(newUser)
     }
@@ -36,3 +43,4 @@ export class UserController {
     // }
 }
  
+

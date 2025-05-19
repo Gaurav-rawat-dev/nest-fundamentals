@@ -8,8 +8,9 @@ export class userService {
         return this.users
     }
 
-    create(req){
-        const newUser = new User(req.body.name,req.body.age )
+    create(createUserDto){
+        const {name, age, role} = createUserDto
+        const newUser = new User(name, age, role)
         // @ts-ignore
         this.users.push(newUser)
         return newUser
@@ -19,6 +20,6 @@ export class userService {
 
 
 class User{
-    constructor(public  name: string, public age : number){}
+    constructor(public  name: string, public age : number, public role: string){}
 
 }
