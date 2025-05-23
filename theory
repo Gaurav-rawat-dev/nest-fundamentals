@@ -1,0 +1,21 @@
+
+CONFIG MODULE : =================================
+forRoot() sets up config handling.
+
+It gives you access to ConfigService.
+
+You can use .get() to read variables.
+
+If a variable exists in both .env and terminal, the terminal one is used.
+
+Would you like to see how to use ConfigService in a real service or controller?
+
+Custom env file
+ConfigModule.forRoot({
+    isGlobal: true,
+  envFilePath: '.development.env',
+});
+
+
+❓ Can we use useFactory anywhere in NestJS?
+✅ Yes — but only in specific places where NestJS expects a provider or module configuration.

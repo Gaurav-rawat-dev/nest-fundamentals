@@ -4,9 +4,35 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { OptionModule } from './option/option.module';
 import { LoggerMiddleware } from './middlewares/logger';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import config from './config/config';
+import { string } from 'zod';
+import { ProductsModule } from './products/products.module';
 
 @Module({
-  imports: [UserModule, OptionModule],
+  imports: [
+    
+    UserModule,
+    OptionModule,
+    ProductsModule,
+
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [config]
+    }),
+
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        const uri = configService.get<string>('MONGODB_URI');
+        console.log('Mongo URI:', uri); // ✅ Add this
+        return { uri };
+      },
+      inject: [ConfigService],
+    })
+
+  ],
   controllers: [],
   providers: [AppService],
 })
