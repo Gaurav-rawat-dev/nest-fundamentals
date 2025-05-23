@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import config from './config/config';
 import { string } from 'zod';
 import { ProductsModule } from './products/products.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -30,6 +31,11 @@ import { ProductsModule } from './products/products.module';
         return { uri };
       },
       inject: [ConfigService],
+    }),
+
+    CacheModule.register({
+      ttl : 60*1000,
+      isGlobal: true
     })
 
   ],

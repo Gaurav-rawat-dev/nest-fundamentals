@@ -1,27 +1,38 @@
-import { Body, Controller, Get, ParseIntPipe, Query, Req, Res, UsePipes, Post } from '@nestjs/common';
+import { Body, Controller, Get, ParseIntPipe, Query, Req, Res, UsePipes, Post, UseInterceptors } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { PipeToNumber } from 'src/pipes/first-pipe';
 import { CreateProductDto } from './productDto/product.dto';
 import { reverse } from 'dns';
 import { Response } from 'express';
+import { CacheInterceptor, CacheKey } from '@nestjs/cache-manager';
 // import { Query } from 'mongoose';
 
+
+@UseInterceptors(CacheInterceptor)
 @Controller('products')
 export class ProductsController {
     constructor(private productService: ProductsService) { }
 
     // this one is by using our custom pipe to convert in number 
-    @UsePipes(PipeToNumber)
+    // @UsePipes(PipeToNumber)
+    // @Get()
+    // async findAllProducts(@Res() res: Response) {
+
+    //     const data = await this.productService.findAll()
+    //     return res.status(200).json({
+    //         message: 'Products fetched successfully',
+    //         data
+    //     })
+
+    // }
+    @CacheKey("products")
     @Get()
-    async findAllProducts(@Res() res: Response) {
-
+    async findAll() {
         const data = await this.productService.findAll()
-        return res.status(200).json({
-            message: 'Products fetched successfully',
-            data
-        })
+    
+        return { message: "all products", data }
+    };
 
-    }
     // @UsePipes(ParseIntPipe)
     //  this is by using inbuilt pipe in nest
     // @Get("my")
