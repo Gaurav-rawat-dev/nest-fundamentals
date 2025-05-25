@@ -10,6 +10,7 @@ import config from './config/config';
 import { string } from 'zod';
 import { ProductsModule } from './products/products.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import * as redisStore from 'cache-manager-ioredis';
 
 @Module({
   imports: [
@@ -33,10 +34,15 @@ import { CacheModule } from '@nestjs/cache-manager';
       inject: [ConfigService],
     }),
 
-    CacheModule.register({
-      ttl : 60*1000,
-      isGlobal: true
-    })
+     CacheModule.registerAsync({
+      isGlobal: true,
+      useFactory: async () => ({
+        store: redisStore,
+        host: 'localhost', // use 'localhost' if app is in Docker too
+        port: 6379,
+        ttl: 1000000,
+      }),
+    }),
 
   ],
   controllers: [],

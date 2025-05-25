@@ -27,7 +27,12 @@ export class ProductsService {
     // return cachedData
 
     // with CACHE iNTERCEPTOR
+    await this.cacheManager.set('hi', "hello")
     return await this.retrieveProducts()
+
+    // await this.cacheManager.set('debugKey', 'debugValue', 100);
+    //    const result = await this.cacheManager.get('debugKey')
+    //    return result
     } catch (error) {
 
      return error
